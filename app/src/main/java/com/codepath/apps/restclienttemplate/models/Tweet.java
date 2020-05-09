@@ -5,14 +5,18 @@ import com.codepath.apps.restclienttemplate.TimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Tweet {
     public String body;
-    public static String createdAt;
+    public String createdAt;
     public User user;
+
+    public Tweet(){}
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
@@ -31,7 +35,7 @@ public class Tweet {
         return tweets;
     }
 
-    public static String getFormattedTimestamp() {
-        return TimeFormatter.getTimeDifference(createdAt);
+    public static String getFormattedTimestamp(Tweet tweet) {
+        return TimeFormatter.getTimeDifference(tweet.createdAt);
     }
 }
