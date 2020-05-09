@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -19,11 +22,16 @@ import org.parceler.Parcels;
 import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
+
     public static final String TAG = "ComposeActivity";
-    public static final int MAX_LENGTH_TWEET = 140;
+    public static final int MAX_LENGTH_TWEET = 280;
+
     EditText etCompose;
+    TextView tvCharCount;
     Button btnTweet;
+
     TwitterClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +41,9 @@ public class ComposeActivity extends AppCompatActivity {
 
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
+        tvCharCount = findViewById(R.id.tvCharCount);
+
+        tvCharCount.setText("0/280");
 
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +80,25 @@ public class ComposeActivity extends AppCompatActivity {
                         Log.e(TAG, "onFailure to publish tweet", throwable);
                     }
                 });
+            }
+        });
+
+        // Char Counter
+        etCompose.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                return;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String val = etCompose.length() + "/280";
+                tvCharCount.setText(val);
             }
         });
 
